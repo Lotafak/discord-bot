@@ -8,12 +8,13 @@ let announcementsChannel;
 client.on('ready', () => {
     logger.info('Connected');
     logger.info(`Logged in as: ${client.user.tag}`);
-    announcementsChannel = client.channels.cache.get('940708077320147004');
+    // TODO: change channel id to 940708077320147004
+    announcementsChannel = client.channels.cache.get('732645041872306217');
+    console.log(announcementsChannel)
 });
 
 export = {
     client,
-    // announcementsChannel: client.channels.cache.get('940708077320147004'),
     getAnnouncementsChannel: () => announcementsChannel,
 };
 
