@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 
 const logger = require('winston');
 
-const { client, getAnnouncementsChannel } = require('../../discord');
+const discord = require('../../discord');
 
 type KofiType = 'Donation' | 'Subscription' | 'Commission' | 'Shop Order';
 type KofiData = {
@@ -24,18 +24,11 @@ type KofiData = {
     tier_name: null,
 };
 
-let ready = false;
-
 const kofiIntegrationHandler = async (req: Request, res: Response) => {
     try {
         logger.debug('kofiIntegrationHandler request', req.body);
 
-        if (!ready) {
-            client.login(process.env.TOKEN);
-            ready = await new Promise((resolve) => client.on('ready', () => {
-                resolve(true);
-            }));
-        }
+        await discord.login();
         const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = <any>req.body.data;
 
         if (verification_token !== process.env.KOFI_TOKEN) {
@@ -52,7 +45,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         }
         const finalMessage = stringBuilder.join(' ');
 
-        getAnnouncementsChannel().send(finalMessage);
+        discord.getAnnouncementsChannel().send(finalMessage);
         return res.status(200).json({ data: { message: finalMessage }});
     } catch (e) {
         logger.error(e.message);

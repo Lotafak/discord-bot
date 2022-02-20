@@ -4,17 +4,27 @@ const logger = require('winston');
 // Initialize Discord Bot
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_TYPING]});
 let announcementsChannel;
+let ready = false;
 
 client.on('ready', () => {
     logger.info('Connected');
     logger.info(`Logged in as: ${client.user.tag}`);
     // TODO: change channel id to 940708077320147004
     announcementsChannel = client.channels.cache.get('732645041872306217');
+    ready = true;
 });
 
+const login = async () => {
+    if (!ready) {
+        client.login(process.env.TOKEN);
+        ready = await new Promise((resolve) => client.on('ready', () => resolve(true)));
+    }
+    return ready;
+}
+
 export = {
-    client,
     getAnnouncementsChannel: () => announcementsChannel,
+    login,
 };
 
 
