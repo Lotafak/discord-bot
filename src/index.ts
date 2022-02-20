@@ -3,7 +3,6 @@ const logger = require('winston');
 const express = require('express');
 
 const {kofiIntegrationHandler} = require("./integrations/kofi");
-const { client } = require('./discord');
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -19,5 +18,3 @@ app.post('/integrations/kofi', kofiIntegrationHandler);
 app.listen(3000, () => {
     logger.info(`Yo Mana server listening on port 3000`);
 });
-
-client.login(process.env.TOKEN);
