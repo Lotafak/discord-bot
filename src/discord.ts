@@ -10,7 +10,6 @@ client.on('ready', () => {
     logger.info(`Logged in as: ${client.user.tag}`);
     // TODO: change channel id to 940708077320147004
     announcementsChannel = client.channels.cache.get('732645041872306217');
-    console.log(announcementsChannel)
 });
 
 export = {

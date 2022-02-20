@@ -2,7 +2,7 @@ require('dotenv').config()
 const logger = require('winston');
 const express = require('express');
 
-const {kofiIntegrationHandler} = require("./modules/kofi");
+const {kofiIntegrationHandler} = require("./integrations/kofi");
 const { client } = require('./discord');
 
 // Configure logger settings
