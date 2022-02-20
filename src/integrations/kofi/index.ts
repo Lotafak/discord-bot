@@ -26,8 +26,21 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
     try {
         console.log('kofiIntegrationHandler request', req.body);
 
+        let data: KofiData;
+        try {
+            const parsed = JSON.parse(req.body);
+            data = parsed.data;
+        } catch (e) {
+            console.log(req.body);
+            const index = req.body.indexOf('{');
+            const t = req.body.slice(index);
+            console.log('after: ', t);
+            data = JSON.parse(t);
+        }
+        console.log('final data:\n', data);
+
         await discord.login();
-        const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = <any>req.body.data;
+        const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = data;
 
         if (verification_token !== process.env.KOFI_TOKEN) {
             console.error(`Incorrect token ${verification_token}`);

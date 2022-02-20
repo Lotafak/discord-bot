@@ -1,10 +1,11 @@
 require('dotenv').config()
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const {kofiIntegrationHandler} = require("./integrations/kofi");
 
 const app = express();
-app.use(express.json({ type: '*/*' }));
+app.use(bodyParser.text({ type: '*/*' }));
 
 app.post('/integrations/kofi', kofiIntegrationHandler);
 
