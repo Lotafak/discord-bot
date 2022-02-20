@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const {kofiIntegrationHandler} = require("./integrations/kofi");
 
 const app = express();
-app.use(bodyParser.text({ type: '*/*' }));
+app.use(bodyParser.urlencoded({ type: '*/*', extended: true }));
 
 app.post('/integrations/kofi', kofiIntegrationHandler);
 

@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 
-const { decode } = require('html-entities');
-
 const discord = require('../../discord');
 
 type KofiType = 'Donation' | 'Subscription' | 'Commission' | 'Shop Order';
@@ -33,12 +31,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
             const parsed = JSON.parse(req.body);
             data = parsed.data;
         } catch (e) {
-            const body = decode(req.body);
-            console.log('before: ', body);
-            const index = body.indexOf('{');
-            const t = body.slice(index);
-            console.log('after: ', t);
-            data = JSON.parse(t);
+            data = JSON.parse(req.body.data);
         }
         console.log('final data:\n', data);
 
