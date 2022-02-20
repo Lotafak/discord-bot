@@ -26,7 +26,7 @@ type KofiData = {
 
 const kofiIntegrationHandler = async (req: Request, res: Response) => {
     try {
-        logger.debug('kofiIntegrationHandler request', req.body);
+        console.log('kofiIntegrationHandler request', req.body);
 
         await discord.login();
         const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = <any>req.body.data;
@@ -46,6 +46,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         const finalMessage = stringBuilder.join(' ');
 
         discord.getAnnouncementsChannel().send(finalMessage);
+        console.log(`Message sent`, finalMessage);
         return res.status(200).json({ data: { message: finalMessage }});
     } catch (e) {
         logger.error(e.message);
