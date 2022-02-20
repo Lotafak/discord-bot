@@ -1,5 +1,4 @@
 const {Client, Intents} = require("discord.js");
-const logger = require('winston');
 
 // Initialize Discord Bot
 const client = new Client({intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_TYPING]});
@@ -7,8 +6,8 @@ let announcementsChannel;
 let ready = false;
 
 client.on('ready', () => {
-    logger.info('Connected');
-    logger.info(`Logged in as: ${client.user.tag}`);
+    console.log('Connected');
+    console.log(`Logged in as: ${client.user.tag}`);
     // TODO: change channel id to 940708077320147004
     announcementsChannel = client.channels.cache.get('732645041872306217');
     ready = true;

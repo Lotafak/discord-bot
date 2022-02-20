@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 
-const logger = require('winston');
-
 const discord = require('../../discord');
 
 type KofiType = 'Donation' | 'Subscription' | 'Commission' | 'Shop Order';
@@ -32,7 +30,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = <any>req.body.data;
 
         if (verification_token !== process.env.KOFI_TOKEN) {
-            logger.error(`Incorrect token ${verification_token}`);
+            console.error(`Incorrect token ${verification_token}`);
             return res.status(401).json({ error: 'Incorrect verification token' });
         }
 
@@ -49,7 +47,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         console.log(`Message sent`, finalMessage);
         return res.status(200).json({ data: { message: finalMessage }});
     } catch (e) {
-        logger.error(e.message);
+        console.error(e.message);
         return res.status(500).json({ error: e.message });
     }
 };
