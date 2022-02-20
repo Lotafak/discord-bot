@@ -35,18 +35,41 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         }
         console.log('final data:\n', data);
 
-        await discord.login();
-        const {from_name: name, message, amount, currency, is_public: isPublic, verification_token}: KofiData = data;
+        const {
+            from_name: name,
+            message,
+            amount,
+            currency,
+            is_public: isPublic,
+            verification_token,
+            type,
+            is_first_subscription_payment: isFirstSubscriptionPayment,
+            tier_name: tierName,
+        }: KofiData = data;
 
         if (verification_token !== process.env.KOFI_TOKEN) {
             console.error(`Incorrect token ${verification_token}`);
             return res.status(401).json({ error: 'Incorrect verification token' });
         }
 
-        const parsedAmount = Number.parseFloat(amount).toFixed(0);
+        await discord.login();
+
+        const parsedAmount = `${Number.parseFloat(amount).toFixed(0)}${currency}`;
         const stringBuilder = [];
-        stringBuilder.push(`Awesome, we just got a ${parsedAmount}${currency} donation from ${name}!`);
-        stringBuilder.push(`We promise you're contribution won't go to waste :pray:`);
+        if (type === 'Donation') {
+            stringBuilder.push(`Awesome, we just got a ${parsedAmount} donation from ${name}!`);
+        }
+        if (type === 'Subscription') {
+            if (isFirstSubscriptionPayment) {
+                stringBuilder.push(`Amazing, we got a new subscriber to our ${parsedAmount} tier! ${name} has just became ${tierName}`);
+            } else {
+                stringBuilder.push(`Nice, our ${tierName} ${name} is still with us!`);
+            }
+        }
+        if (type === 'Shop Order') {
+            stringBuilder.push(`Cool, a ticket to an event has been bought by ${name} for ${parsedAmount}!`);
+        }
+        stringBuilder.push(`We promise your contribution won't go to waste :pray:`);
         if (isPublic && message) {
             stringBuilder.push(`\nLet's hear what they have to say: "${message}"`);
         }
