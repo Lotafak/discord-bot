@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "tsc && node build/index.js",
-    "watch": "nodemon --watch src -e js,ts -x \"yarn start\""
+    "watch": "nodemon --watch src -e js,ts -x \"yarn start\"",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
