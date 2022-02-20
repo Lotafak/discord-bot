@@ -61,7 +61,10 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         }
         if (type === 'Subscription') {
             if (isFirstSubscriptionPayment) {
-                stringBuilder.push(`Amazing, we got a new subscriber to our ${parsedAmount} tier! ${name} has just became ${tierName}`);
+                stringBuilder.push(`Amazing, we got a new subscriber to our ${parsedAmount} tier!`);
+                if (tierName) {
+                    stringBuilder.push(`${name} has just become ${tierName}.`);
+                }
             } else {
                 stringBuilder.push(`Nice, our ${tierName} ${name} is still with us!`);
             }
