@@ -8,8 +8,7 @@ let ready = false;
 client.on('ready', () => {
     console.log('Connected');
     console.log(`Logged in as: ${client.user.tag}`);
-    // TODO: change channel id to 940708077320147004
-    announcementsChannel = client.channels.cache.get('732645041872306217');
+    announcementsChannel = client.channels.cache.get('940708077320147004');
     ready = true;
 });
 
