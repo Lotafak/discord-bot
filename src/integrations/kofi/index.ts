@@ -44,7 +44,7 @@ const kofiIntegrationHandler = async (req: Request, res: Response) => {
         const finalMessage = stringBuilder.join(' ');
 
         discord.getAnnouncementsChannel().send(finalMessage);
-        console.log(`Message sent`, finalMessage);
+        console.log(`Message sent:\n`, finalMessage);
         return res.status(200).json({ data: { message: finalMessage }});
     } catch (e) {
         console.error(e.message);
