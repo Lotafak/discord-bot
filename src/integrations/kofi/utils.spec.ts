@@ -26,37 +26,47 @@ describe('kofi utils', () => {
         it('Can handle donation', () => {
             const message = buildKofiMessage(data);
 
-            expect(message).toBe("Awesome, we just got a 3USD donation from Ko-fi Team! We promise your contribution won't go to waste :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
+            expect(message).toBe("Awesome, we just got a donation from Ko-fi Team! Thanks to you, we can thrive :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
         });
 
         it('Can handle first subscription', () => {
             const message = buildKofiMessage({...data, type: 'Subscription', is_first_subscription_payment: true});
 
-            expect(message).toBe("Amazing, we got a new subscriber to our 3USD tier! Thank you Ko-fi Team! We promise your contribution won't go to waste :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
+            expect(message).toBe("Amazing, we got a new subscriber - Ko-fi Team! Thanks to you, we can thrive :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
         });
 
         it('Can handle first subscription with tier name', () => {
-            const message = buildKofiMessage({...data, type: 'Subscription', is_first_subscription_payment: true, tier_name: 'Mana Soldier'});
+            const message = buildKofiMessage({
+                ...data,
+                type: 'Subscription',
+                is_first_subscription_payment: true,
+                tier_name: 'Mana Soldier'
+            });
 
-            expect(message).toBe("Amazing, we got a new subscriber to our 3USD tier! Ko-fi Team has just become Mana Soldier! We promise your contribution won't go to waste :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
+            expect(message).toBe("Amazing, we got a new subscriber to our Mana Soldier tier - Ko-fi Team! Thanks to you, we can thrive :pray: \nLet's hear what they have to say: \"Good luck with the integration!\"");
         });
 
         it('Can handle recurring subscription without message', () => {
             const message = buildKofiMessage({...data, type: 'Subscription', message: ''});
 
-            expect(message).toBe("How nice, Ko-fi Team continues to support us for 3USD! We promise your contribution won't go to waste :pray:");
+            expect(message).toBe("Would you look at that, Ko-fi Team continues to support us! Thanks to you, we can thrive :pray:");
         });
 
         it('Can handle subscription with tier name', () => {
             const message = buildKofiMessage({...data, type: 'Subscription', message: '', tier_name: 'Mana warrior'});
 
-            expect(message).toBe("How nice, our Mana warrior Ko-fi Team continues to support us for 3USD! We promise your contribution won't go to waste :pray:");
+            expect(message).toBe("Would you look at that, our Mana warrior Ko-fi Team continues to support us! Thanks to you, we can thrive :pray:");
         });
 
         it('Can handle shop item', () => {
-            const message = buildKofiMessage({...data, type: 'Shop Order', message: ''});
+            const message = buildKofiMessage({
+                ...data,
+                type: 'Shop Order',
+                shop_items: [{direct_link_code: '7b86144e69'}],
+                message: ''
+            });
 
-            expect(message).toBe("Cool, Ko-fi Team bought a ticket to an event for 3USD! We promise your contribution won't go to waste :pray:");
+            expect(message).toBe("Cool, Ko-fi Team bought a ticket to an event! Thanks to you, we can thrive :pray:");
         });
     });
 });
